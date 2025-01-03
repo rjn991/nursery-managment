@@ -1,14 +1,10 @@
-import { Button } from "@/components/ui/button"
-
+import Dashboard from "./Pages/Dashboard";
 function App() {
-  
-
   return (
     <>
-      <p>Hai</p>
-      <Button className="m-5 px-10">Click me</Button>
+      <Dashboard></Dashboard>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
