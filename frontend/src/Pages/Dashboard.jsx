@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
 import React from "react";
+import { NavLink } from "react-router";
 const Dashboard = () => {
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const [plantName, setPlantName] = useState();
@@ -88,7 +89,9 @@ const Dashboard = () => {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+            <NavLink to="/viewSeeds">
             <Button className="block  my-5 w-full">View Seeds</Button>
+            </NavLink>
           </div>
         </div>
         <div className="flex-1">
