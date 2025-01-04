@@ -20,6 +20,8 @@ const Dashboard = () => {
   const [plantName, setPlantName] = useState();
   const [plantType, setPlantType] = useState();
   const [plantCost, setPlantCost] = useState();
+  
+  const [seedDialogOpen, setSeedDialogOpen] = useState(false);
 
   const handlePlantSubmit = () => {
     const payload = { name: plantName, category: plantType, cost: plantCost };
@@ -31,6 +33,7 @@ const Dashboard = () => {
       })
       .catch((error) => {
         console.error("Error uploading data:", error);
+        setSeedDialogOpen(false)
       });
   };
   return (
@@ -40,7 +43,7 @@ const Dashboard = () => {
         <div className="flex-1">
           <div className="w-56 ml-auto mr-0">
             <p>Seed</p>
-            <Dialog>
+            <Dialog open={seedDialogOpen} onOpenChange={setSeedDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="block  my-5 w-full">Add Seed</Button>
               </DialogTrigger>
