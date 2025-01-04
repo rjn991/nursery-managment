@@ -24,8 +24,8 @@ public class SeedServices {
     }
 
     public List<SeedDTO> getAllSeeds() {
-        List<SeedEntity> employeeEntities= seedRepository.findAll();
-        return employeeEntities
+        List<SeedEntity> seedEntities= seedRepository.findAll();
+        return seedEntities
                 .stream()
                 .map(seedEntity -> modelMapper.map(seedEntity,SeedDTO.class))
                 .collect(Collectors.toList());
