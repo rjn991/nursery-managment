@@ -9,6 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -20,7 +29,7 @@ const Dashboard = () => {
   const [seedName, setSeedName] = useState();
   const [seedType, setSeedType] = useState();
   const [seedCost, setSeedCost] = useState();
-  
+
   const [seedDialogOpen, setSeedDialogOpen] = useState(false);
 
   const handlePlantSubmit = () => {
@@ -30,7 +39,7 @@ const Dashboard = () => {
       .post(`${apiUrl}/seeds`, payload)
       .then((response) => {
         console.log("Response:", response.data);
-        setSeedDialogOpen(false)
+        setSeedDialogOpen(false);
       })
       .catch((error) => {
         console.error("Error uploading data:", error);
@@ -69,12 +78,20 @@ const Dashboard = () => {
                     <Label htmlFor="username" className="text-right">
                       Category
                     </Label>
-                    <Input
-                      onChange={(e) => {
-                        setSeedType(e.target.value);
-                      }}
-                      className="col-span-3"
-                    />
+                    <Select onValueChange={(e)=> {setSeedType(e)}}>
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue placeholder="Select the category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Category</SelectLabel>
+                          <SelectItem value="Herbs">Herbs</SelectItem>
+                          <SelectItem value="Fruit">Fruit</SelectItem>
+                          <SelectItem value="Flower">Flower</SelectItem>
+                          <SelectItem value="Vegetable">Vegetable</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="username" className="text-right">
@@ -94,7 +111,7 @@ const Dashboard = () => {
               </DialogContent>
             </Dialog>
             <NavLink to="/viewSeedsAdmin">
-            <Button className="block  my-5 w-full">View Seeds</Button>
+              <Button className="block  my-5 w-full">View Seeds</Button>
             </NavLink>
           </div>
         </div>
