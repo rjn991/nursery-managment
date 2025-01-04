@@ -17,28 +17,29 @@ import React from "react";
 import { NavLink } from "react-router";
 const Dashboard = () => {
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
-  const [plantName, setPlantName] = useState();
-  const [plantType, setPlantType] = useState();
-  const [plantCost, setPlantCost] = useState();
+  const [seedName, setSeedName] = useState();
+  const [seedType, setSeedType] = useState();
+  const [seedCost, setSeedCost] = useState();
   
   const [seedDialogOpen, setSeedDialogOpen] = useState(false);
 
   const handlePlantSubmit = () => {
-    const payload = { name: plantName, category: plantType, cost: plantCost };
+    const payload = { name: seedName, category: seedType, cost: seedCost };
 
     axios
       .post(`${apiUrl}/seeds`, payload)
       .then((response) => {
         console.log("Response:", response.data);
+        setSeedDialogOpen(false)
       })
       .catch((error) => {
         console.error("Error uploading data:", error);
-        setSeedDialogOpen(false)
       });
   };
   return (
     <>
       <Navbar></Navbar>
+      <p>Admin dashboard</p>
       <div className="flex p-5 gap-28">
         <div className="flex-1">
           <div className="w-56 ml-auto mr-0">
@@ -59,7 +60,7 @@ const Dashboard = () => {
                     </Label>
                     <Input
                       onChange={(e) => {
-                        setPlantName(e.target.value);
+                        setSeedName(e.target.value);
                       }}
                       className="col-span-3"
                     />
@@ -70,7 +71,7 @@ const Dashboard = () => {
                     </Label>
                     <Input
                       onChange={(e) => {
-                        setPlantType(e.target.value);
+                        setSeedType(e.target.value);
                       }}
                       className="col-span-3"
                     />
@@ -81,7 +82,7 @@ const Dashboard = () => {
                     </Label>
                     <Input
                       onChange={(e) => {
-                        setPlantCost(e.target.value);
+                        setSeedCost(e.target.value);
                       }}
                       className="col-span-3"
                     />
@@ -92,7 +93,7 @@ const Dashboard = () => {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-            <NavLink to="/viewSeeds">
+            <NavLink to="/viewSeedsAdmin">
             <Button className="block  my-5 w-full">View Seeds</Button>
             </NavLink>
           </div>
