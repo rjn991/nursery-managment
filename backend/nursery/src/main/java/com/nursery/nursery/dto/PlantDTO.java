@@ -14,7 +14,7 @@ public class PlantDTO {
     Long id;
     String name;
     String category;
-    Double plantHeight;
+    Float plantHeight;
     Integer plantsStock;
     Float cost;
 }

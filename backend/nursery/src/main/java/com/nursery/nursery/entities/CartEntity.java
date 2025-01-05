@@ -10,38 +10,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
-
 @Entity
-@Table(name = "plant")
+@Table(name = "cart")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class PlantEntity {
+public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
     @NotBlank(message = "{blank.invalid}")
     @NotEmpty(message = "{empty.invalid}")
-    String name;
+    String productName;
 
-    @NotBlank(message = "{blank.invalid}")
-    @NotEmpty(message = "{empty.invalid}")
-    String category;
-
+    @Min(value = 0, message = "cannot be negative")
     @NotNull(message = "{null.invalid}")
-    @Min(value = 1, message = "Plant height cannot be zero")
-    Float plantHeight;
+    Integer quantity;
 
-    @Min(value = 1, message = "Plant cost cannot be zero")
+    @Min(value = 1, message = "cost cannot be zero")
     @NotNull(message = "{null.invalid}")
     Float cost;
 
-    @Min(value = 0, message = "Plant stock cannot be negative")
-    @NotNull(message = "{null.invalid}")
-    Integer plantsStock;
 }

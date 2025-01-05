@@ -69,6 +69,15 @@ public class PlantServices {
                 throw new IllegalArgumentException("Invalid data type for cost");
             }
         }
+        if (updates.containsKey("plantHeight")) {
+            Object costValue2 = updates.get("plantHeight");
+            if (costValue2 instanceof Number) {
+                plantEntity.setPlantHeight(((Number) costValue2).floatValue());
+                updates.remove("plantHeight"); // Avoid duplicate updates in the reflection block
+            } else {
+                throw new IllegalArgumentException("Invalid data type for plantHeight");
+            }
+        }
         // Use reflection to update other fields
         updates.forEach((field, value) -> {
             Field fieldToBeUpdated = ReflectionUtils.findField(PlantEntity.class, field);
