@@ -29,11 +29,13 @@ const Dashboard = () => {
   const [seedName, setSeedName] = useState();
   const [seedType, setSeedType] = useState();
   const [seedCost, setSeedCost] = useState();
-
+  const [seedStock,setSeedStock] = useState();
+  const [seedPerPacket,setSeedPerPacket] = useState();
+  
   const [seedDialogOpen, setSeedDialogOpen] = useState(false);
 
   const handlePlantSubmit = () => {
-    const payload = { name: seedName, category: seedType, cost: seedCost };
+    const payload = { name: seedName, category: seedType, cost: seedCost, seedsStock: seedStock, seedsPerPacket: seedPerPacket };
 
     axios
       .post(`${apiUrl}/seeds`, payload)
@@ -65,7 +67,7 @@ const Dashboard = () => {
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
-                      Plant Name
+                      Seed Name
                     </Label>
                     <Input
                       onChange={(e) => {
@@ -104,7 +106,30 @@ const Dashboard = () => {
                       className="col-span-3"
                     />
                   </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Seeds Stock
+                    </Label>
+                    <Input
+                      onChange={(e) => {
+                        setSeedStock(e.target.value);
+                      }}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Seeds Per Packet
+                    </Label>
+                    <Input
+                      onChange={(e) => {
+                        setSeedPerPacket(e.target.value);
+                      }}
+                      className="col-span-3"
+                    />
+                  </div>
                 </div>
+                
                 <DialogFooter>
                   <Button onClick={handlePlantSubmit}>Upload</Button>
                 </DialogFooter>

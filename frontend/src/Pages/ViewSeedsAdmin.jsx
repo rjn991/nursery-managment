@@ -28,6 +28,9 @@ import { useEffect, useState } from "react";
 const ViewSeedsAdmin = () => {
   const [seedData, setSeedData] = useState(null);
   const [seedCost,setSeedCost] = useState()
+  const [seedStock,setSeedStock] = useState();
+  const [seedPerPacket,setSeedPerPacket] = useState();
+
   const [couter, setCounter] = useState(0);
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -55,7 +58,7 @@ const ViewSeedsAdmin = () => {
       });
   };
   const handleChange = (id) => {
-    const payload = { cost: parseFloat(seedCost) };
+    const payload = { cost: parseFloat(seedCost), seedsPerPacket:parseInt(seedPerPacket), seedsStock:parseInt(seedStock) };
     axios
       .patch(`${apiUrl}/seeds/${id}`, payload)
       .then((response) => {
@@ -69,15 +72,16 @@ const ViewSeedsAdmin = () => {
   return (
     <>
       <Navbar></Navbar>
-      <Table>
+      <Table >
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Seed ID</TableHead>
             <TableHead>Seed Name</TableHead>
             <TableHead>Seed Category</TableHead>
-            <TableHead className="text-right">Seed cost</TableHead>
-            <TableHead className="text-right"></TableHead>
+            <TableHead>Seeds Per Packet</TableHead>
+            <TableHead>Seed cost</TableHead>
+            <TableHead>Seed Stock</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -88,7 +92,9 @@ const ViewSeedsAdmin = () => {
                   <TableCell className="font-medium">{data.id}</TableCell>
                   <TableCell>{data.name}</TableCell>
                   <TableCell>{data.category}</TableCell>
-                  <TableCell className="text-right">{`$ ${data.cost}`}</TableCell>
+                  <TableCell>{data.seedsPerPacket}</TableCell>
+                  <TableCell >{`$ ${data.cost}`}</TableCell>
+                  <TableCell>{data.seedsStock}</TableCell>
                   <TableCell className="text-center">
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
@@ -133,12 +139,30 @@ const ViewSeedsAdmin = () => {
                           <AlertDialogDescription></AlertDialogDescription>
                         </AlertDialogHeader>
                         <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name" className="text-right">
+                            Seeds Per Packet
+                          </Label>
+                          <Input placeholder={data.seedsPerPacket}
+                            onChange={(e) => {
+                              setSeedPerPacket(e.target.value);
+                            }}
+                            className="col-span-3"
+                          />
                           <Label htmlFor="name" className="text-right">
                             Cost
                           </Label>
-                          <Input
+                          <Input placeholder={data.cost}
                             onChange={(e) => {
                               setSeedCost(e.target.value);
+                            }}
+                            className="col-span-3"
+                          />
+                          <Label htmlFor="name" className="text-right">
+                            Seed Stock
+                          </Label>
+                          <Input placeholder={data.seedsStock}
+                            onChange={(e) => {
+                              setSeedStock(e.target.value);
                             }}
                             className="col-span-3"
                           />
