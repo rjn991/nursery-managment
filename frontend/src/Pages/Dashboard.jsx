@@ -9,24 +9,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
 import React from "react";
+import { NavLink } from "react-router";
 const Dashboard = () => {
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
-  const [plantName, setPlantName] = useState();
-  const [plantType, setPlantType] = useState();
-  const [plantCost, setPlantCost] = useState();
+  const [seedName, setSeedName] = useState();
+  const [seedType, setSeedType] = useState();
+  const [seedCost, setSeedCost] = useState();
+
+  const [seedDialogOpen, setSeedDialogOpen] = useState(false);
 
   const handlePlantSubmit = () => {
-    const payload = { name: plantName, category: plantType, cost: plantCost };
+    const payload = { name: seedName, category: seedType, cost: seedCost };
 
     axios
       .post(`${apiUrl}/seeds`, payload)
       .then((response) => {
         console.log("Response:", response.data);
+        setSeedDialogOpen(false);
       })
       .catch((error) => {
         console.error("Error uploading data:", error);
@@ -35,11 +48,12 @@ const Dashboard = () => {
   return (
     <>
       <Navbar></Navbar>
+      <p>Admin dashboard</p>
       <div className="flex p-5 gap-28">
         <div className="flex-1">
           <div className="w-56 ml-auto mr-0">
             <p>Seed</p>
-            <Dialog>
+            <Dialog open={seedDialogOpen} onOpenChange={setSeedDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="block  my-5 w-full">Add Seed</Button>
               </DialogTrigger>
@@ -55,7 +69,7 @@ const Dashboard = () => {
                     </Label>
                     <Input
                       onChange={(e) => {
-                        setPlantName(e.target.value);
+                        setSeedName(e.target.value);
                       }}
                       className="col-span-3"
                     />
@@ -64,12 +78,20 @@ const Dashboard = () => {
                     <Label htmlFor="username" className="text-right">
                       Category
                     </Label>
-                    <Input
-                      onChange={(e) => {
-                        setPlantType(e.target.value);
-                      }}
-                      className="col-span-3"
-                    />
+                    <Select onValueChange={(e)=> {setSeedType(e)}}>
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue placeholder="Select the category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Category</SelectLabel>
+                          <SelectItem value="Herbs">Herbs</SelectItem>
+                          <SelectItem value="Fruit">Fruit</SelectItem>
+                          <SelectItem value="Flower">Flower</SelectItem>
+                          <SelectItem value="Vegetable">Vegetable</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="username" className="text-right">
@@ -77,7 +99,7 @@ const Dashboard = () => {
                     </Label>
                     <Input
                       onChange={(e) => {
-                        setPlantCost(e.target.value);
+                        setSeedCost(e.target.value);
                       }}
                       className="col-span-3"
                     />
@@ -88,7 +110,9 @@ const Dashboard = () => {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-            <Button className="block  my-5 w-full">View Seeds</Button>
+            <NavLink to="/viewSeedsAdmin">
+              <Button className="block  my-5 w-full">View Seeds</Button>
+            </NavLink>
           </div>
         </div>
         <div className="flex-1">
