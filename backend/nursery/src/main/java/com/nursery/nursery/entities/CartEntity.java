@@ -26,6 +26,10 @@ public class CartEntity {
     @NotEmpty(message = "{empty.invalid}")
     String productName;
 
+    @NotBlank(message = "{blank.invalid}")
+    @NotEmpty(message = "{empty.invalid}")
+    String type;
+
     @Min(value = 0, message = "cannot be negative")
     @NotNull(message = "{null.invalid}")
     Integer quantity;
