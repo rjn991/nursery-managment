@@ -29,29 +29,36 @@ const viewSeeds = () => {
   return (
     <>
       <Navbar></Navbar>
-      <Table>
-        <TableCaption></TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Seed ID</TableHead>
-            <TableHead>Seed Name</TableHead>
-            <TableHead>Seed Category</TableHead>
-            <TableHead className="text-right">Seed cost</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {seedData!=null && seedData.map((data, id) => {
-            return (
-              <TableRow key={data.id}>
-                <TableCell className="font-medium">{data.id}</TableCell>
-                <TableCell>{data.name}</TableCell>
-                <TableCell>{data.category}</TableCell>
-                <TableCell className="text-right">{`$ ${data.cost}`}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+      <div className="m-5">
+        <Table>
+          <TableCaption></TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Seed ID</TableHead>
+              <TableHead>Seed Name</TableHead>
+              <TableHead>Seed Category</TableHead>
+              <TableHead>Seeds Per Packet</TableHead>
+              <TableHead>Seed cost</TableHead>
+              <TableHead>Seed Stock</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {seedData != null &&
+              seedData.map((data, id) => {
+                return (
+                  <TableRow key={data.id}>
+                    <TableCell className="font-medium">{data.id}</TableCell>
+                    <TableCell>{data.name}</TableCell>
+                    <TableCell>{data.category}</TableCell>
+                    <TableCell>{data.seedsPerPacket}</TableCell>
+                    <TableCell>{`₹ ${data.cost}`}</TableCell>
+                    <TableCell>{data.seedsStock}</TableCell>
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </div>
     </>
   );
 };

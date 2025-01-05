@@ -24,8 +24,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-const ViewSeedsAdmin = () => {
+const ViewPlantsAdmin = () => {
   const [seedData, setSeedData] = useState(null);
   const [seedCost, setSeedCost] = useState();
   const [seedStock, setSeedStock] = useState();
@@ -36,7 +35,7 @@ const ViewSeedsAdmin = () => {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/seeds`)
+      .get(`${apiUrl}/plants`)
       .then((response) => {
         setSeedData(response.data);
         console.log(response.data);
@@ -48,7 +47,7 @@ const ViewSeedsAdmin = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`${apiUrl}/seeds/${id}`)
+      .delete(`${apiUrl}/plants/${id}`)
       .then((response) => {
         console.log(response.data);
         setCounter((prev) => prev + 1);
@@ -60,11 +59,11 @@ const ViewSeedsAdmin = () => {
   const handleChange = (id) => {
     const payload = {
       cost: parseFloat(seedCost),
-      seedsPerPacket: parseInt(seedPerPacket),
-      seedsStock: parseInt(seedStock),
+      plantHeight: parseInt(seedPerPacket),
+      plantsStock: parseInt(seedStock),
     };
     axios
-      .patch(`${apiUrl}/seeds/${id}`, payload)
+      .patch(`${apiUrl}/plants/${id}`, payload)
       .then((response) => {
         console.log(response.data);
         setCounter((prev) => prev + 1);
@@ -81,12 +80,12 @@ const ViewSeedsAdmin = () => {
           <TableCaption></TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Seed ID</TableHead>
-              <TableHead>Seed Name</TableHead>
-              <TableHead>Seed Category</TableHead>
-              <TableHead>Seeds Per Packet</TableHead>
-              <TableHead>Seed cost</TableHead>
-              <TableHead>Seed Stock</TableHead>
+              <TableHead className="w-[100px]">Plant ID</TableHead>
+              <TableHead>Plant Name</TableHead>
+              <TableHead>Plant Category</TableHead>
+              <TableHead>Plant Height</TableHead>
+              <TableHead>Plant Cost</TableHead>
+              <TableHead>Plant Stock</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -97,9 +96,9 @@ const ViewSeedsAdmin = () => {
                     <TableCell className="font-medium">{data.id}</TableCell>
                     <TableCell>{data.name}</TableCell>
                     <TableCell>{data.category}</TableCell>
-                    <TableCell>{data.seedsPerPacket}</TableCell>
+                    <TableCell>{data.plantHeight}</TableCell>
                     <TableCell>{`₹ ${data.cost}`}</TableCell>
-                    <TableCell>{data.seedsStock}</TableCell>
+                    <TableCell>{data.plantsStock}</TableCell>
                     <TableCell className="text-center">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -145,10 +144,10 @@ const ViewSeedsAdmin = () => {
                           </AlertDialogHeader>
                           <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">
-                              Seeds Per Packet
+                              Plant Height
                             </Label>
                             <Input
-                              placeholder={data.seedsPerPacket}
+                              placeholder={data.plantHeight}
                               onChange={(e) => {
                                 setSeedPerPacket(e.target.value);
                               }}
@@ -165,10 +164,10 @@ const ViewSeedsAdmin = () => {
                               className="col-span-3"
                             />
                             <Label htmlFor="name" className="text-right">
-                              Seed Stock
+                              Plant Stock
                             </Label>
                             <Input
-                              placeholder={data.seedsStock}
+                              placeholder={data.plantsStock}
                               onChange={(e) => {
                                 setSeedStock(e.target.value);
                               }}
@@ -180,6 +179,7 @@ const ViewSeedsAdmin = () => {
                             <AlertDialogAction
                               onClick={() => {
                                 handleChange(data.id);
+                                console.log(seedCost,seedPerPacket,seedStock)
                               }}
                             >
                               Continue
@@ -197,4 +197,4 @@ const ViewSeedsAdmin = () => {
     </>
   );
 };
-export default ViewSeedsAdmin;
+export default ViewPlantsAdmin;
