@@ -14,5 +14,7 @@ public class SeedDTO {
     Long id;
     String name;
     String category;
+    Integer seedsStock;
+    Integer seedsPerPacket;
     Float cost;
 }
