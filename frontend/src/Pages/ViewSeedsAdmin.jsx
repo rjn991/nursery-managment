@@ -19,12 +19,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const ViewSeedsAdmin = () => {
   const [seedData, setSeedData] = useState(null);
+  const [seedCost,setSeedCost] = useState()
   const [couter, setCounter] = useState(0);
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -51,6 +54,18 @@ const ViewSeedsAdmin = () => {
         console.log(error);
       });
   };
+  const handleChange = (id) => {
+    const payload = { cost: parseFloat(seedCost) };
+    axios
+      .patch(`${apiUrl}/seeds/${id}`, payload)
+      .then((response) => {
+        console.log(response.data);
+        setCounter((prev) => prev + 1);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <>
       <Navbar></Navbar>
@@ -95,6 +110,44 @@ const ViewSeedsAdmin = () => {
                           <AlertDialogAction
                             onClick={() => {
                               handleDelete(data.id);
+                            }}
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </TableCell>
+                  <TableCell>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button className="bg-green-700 hover:bg-green-400 text-white hover:text-white">
+                          Edit
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            {`Change the details of ${data.name}`}
+                          </AlertDialogTitle>
+                          <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="name" className="text-right">
+                            Cost
+                          </Label>
+                          <Input
+                            onChange={(e) => {
+                              setSeedCost(e.target.value);
+                            }}
+                            className="col-span-3"
+                          />
+                        </div>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => {
+                              handleChange(data.id);
                             }}
                           >
                             Continue
