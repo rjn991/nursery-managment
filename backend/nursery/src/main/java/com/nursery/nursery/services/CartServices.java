@@ -45,6 +45,14 @@ public class CartServices {
         return true;
     }
 
+    public boolean deleteCart(Boolean Cart){
+        if(Cart){
+            cartRepository.deleteAll();
+            return cartRepository.count() == 0;
+        }
+        else return false;
+    }
+
     public CartDTO partiallyUpdateCartById(Long cartId, Map<String, Object> updates) {
         // Check if the seed exists
         boolean exists = cartRepository.existsById(cartId);

@@ -2,7 +2,6 @@ package com.nursery.nursery.controllers;
 
 
 import com.nursery.nursery.dto.CartDTO;
-import com.nursery.nursery.dto.PlantDTO;
 import com.nursery.nursery.services.CartServices;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +35,11 @@ public class CartController {
         boolean found=cartServices.deleteCartById(CartId);
         if(!found)return false ;
         return true;
+    }
+
+    @DeleteMapping(path = "/deleteAll/{Cart}")
+    public boolean deleteCart(@PathVariable Boolean Cart){
+        return cartServices.deleteCart(Cart);
     }
 
     @PatchMapping(path = "/{CartId}")
