@@ -74,7 +74,7 @@ const ViewPlantsAdmin = () => {
   };
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar dashboard="notReq" cart="notReq"></Navbar>
       <div className="m-5">
         <Table>
           <TableCaption></TableCaption>

@@ -79,7 +79,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen val">
-        <Navbar></Navbar>
+        <Navbar cart="notReq" dashboard="notReq"></Navbar>
         <div className="flex-1 bg-cover bg-center" style={{ backgroundImage: `url(${dashboardBg})`}}>
           <div className="flex p-5 gap-28  pt-32">
             <div className="flex-1">

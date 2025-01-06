@@ -215,7 +215,7 @@ const Cart = () => {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogAction asChild className="bg-green-800 hover:bg-green-500 mr-auto ml-auto">
-                        <NavLink to="/dashboard">
+                        <NavLink to="/userDashboard">
                           <button>
                             Continue Shopping
                           </button>

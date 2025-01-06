@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <Navbar></Navbar>
+        <Navbar dashboard="notReq" cart="notReq"></Navbar>
         <div className="pt-32 flex-1 bg-cover bg-center" style={{ backgroundImage: `url(${loginBg})`}}>
           <div className="mx-auto  w-[400px] px-5 py-5 border-2 border-slate-200 rounded-lg bg-white bg-opacity-90">
             <p className="text-xl font-bold text-lime-500">Login</p>
