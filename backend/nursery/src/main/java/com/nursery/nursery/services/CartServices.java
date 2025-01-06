@@ -4,6 +4,7 @@ package com.nursery.nursery.services;
 import com.nursery.nursery.dto.CartDTO;
 import com.nursery.nursery.entities.CartEntity;
 import com.nursery.nursery.repositories.CartRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -32,9 +33,48 @@ public class CartServices {
     }
 
 
+    @Transactional
+    public void removeDuplicatesAndUpdateCost() {
+        // Fetch duplicate groups
+        List<Object[]> duplicates = cartRepository.findDuplicates();
+
+        for (Object[] duplicate : duplicates) {
+            String productName = (String) duplicate[0];
+            String type = (String) duplicate[1];
+            Long duplicateCount = (Long) duplicate[2];
+
+            // Find all rows matching the productName and type
+            List<CartEntity> rows = cartRepository.findByProductNameAndType(productName, type);
+
+            if (!rows.isEmpty()) {
+                // Retain the first row
+                CartEntity primaryRow = rows.get(0);
+
+                // Calculate the total cost and quantity by summing up all rows
+                float totalCost = 0.0F;
+                int totalQuantity = 0;
+                for (CartEntity row : rows) {
+                    totalCost += row.getCost();
+                    totalQuantity += row.getQuantity();
+                }
+
+                // Update the retained row
+                primaryRow.setCost(totalCost);
+                primaryRow.setQuantity(totalQuantity);
+                cartRepository.save(primaryRow);
+
+                // Delete all other rows
+                rows.remove(0); // Retain the first row
+                cartRepository.deleteAll(rows); // Delete the rest
+            }
+        }
+    }
+
+
     public Boolean postCart(CartDTO inputCart) {
         CartEntity toSaveEntity=modelMapper.map(inputCart,CartEntity.class);
         cartRepository.save(toSaveEntity);
+        removeDuplicatesAndUpdateCost();
         return true;
     }
 
