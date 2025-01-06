@@ -24,9 +24,12 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import success from "../assets/success.png";
+import { NavLink } from "react-router";
 const Cart = () => {
   const [cartData, setCartData] = useState(null);
   const [couter, setCounter] = useState(0);
+  const [newQuantity, setNewQuantity] = useState();
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const [totalCost, setTotalCost] = useState(0);
   useEffect(() => {
@@ -34,10 +37,10 @@ const Cart = () => {
       .get(`${apiUrl}/cart`)
       .then((response) => {
         setCartData(response.data);
-        setTotalCost(0)
-        response.data.map((data,id)=>{
-            setTotalCost((prev)=> prev+data.cost)
-        })
+        setTotalCost(0);
+        response.data.map((data, id) => {
+          setTotalCost((prev) => prev + data.cost);
+        });
         console.log(response.data);
       })
       .catch((error) => {
@@ -56,7 +59,29 @@ const Cart = () => {
         console.log(error);
       });
   };
+  const handleChange = (id) => {
+    axios
+      .post(`${apiUrl}/cart/${id}?quantity=${newQuantity}`)
+      .then((response) => {
+        console.log(response.data);
+        setCounter((prev) => prev + 1);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
+  const handleDeleteAll = () => {
+    axios
+      .delete(`${apiUrl}/cart/deleteAll/true`)
+      .then((response) => {
+        console.log(response.data);
+        setCounter((prev) => prev + 1);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <Navbar></Navbar>
@@ -122,38 +147,18 @@ const Cart = () => {
                         <AlertDialogContent>
                           <AlertDialogHeader>
                             <AlertDialogTitle>
-                              {`Change the details of ${data.name}`}
+                              {`Change the quantity of ${data.productName}`}
                             </AlertDialogTitle>
                             <AlertDialogDescription></AlertDialogDescription>
                           </AlertDialogHeader>
                           <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">
-                              Plant Height
+                              Quantity
                             </Label>
                             <Input
                               placeholder={data.plantHeight}
                               onChange={(e) => {
-                                setSeedPerPacket(e.target.value);
-                              }}
-                              className="col-span-3"
-                            />
-                            <Label htmlFor="name" className="text-right">
-                              Cost
-                            </Label>
-                            <Input
-                              placeholder={data.cost}
-                              onChange={(e) => {
-                                setSeedCost(e.target.value);
-                              }}
-                              className="col-span-3"
-                            />
-                            <Label htmlFor="name" className="text-right">
-                              Plant Stock
-                            </Label>
-                            <Input
-                              placeholder={data.plantsStock}
-                              onChange={(e) => {
-                                setSeedStock(e.target.value);
+                                setNewQuantity(e.target.value);
                               }}
                               className="col-span-3"
                             />
@@ -163,7 +168,6 @@ const Cart = () => {
                             <AlertDialogAction
                               onClick={() => {
                                 handleChange(data.id);
-                                console.log(seedCost, seedPerPacket, seedStock);
                               }}
                             >
                               Continue
@@ -180,8 +184,47 @@ const Cart = () => {
               <TableCell></TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
-              <TableCell><p className="text-lg text-green-800 font-semibold">{totalCost}</p></TableCell>
-              <TableCell  className="text-center"><Button className="bg-lime-700 hover:bg-lime-500 px-10">Buy</Button></TableCell>
+              <TableCell>
+                <p className="text-lg text-green-800 font-semibold">
+                  {`₹ ${totalCost}`}
+                </p>
+              </TableCell>
+              <TableCell className="text-center">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    {totalCost != 0 && (
+                      <Button
+                        className="bg-lime-700 hover:bg-lime-500 px-10"
+                        onClick={handleDeleteAll}
+                      >
+                        Buy
+                      </Button>
+                    )}
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-center">
+                        {`Your Order is placed succesfully!`}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-center">
+                        <img
+                          className="h-40 mr-auto ml-auto"
+                          src={success}
+                        ></img>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogAction asChild className="bg-green-800 hover:bg-green-500 mr-auto ml-auto">
+                        <NavLink to="/userDashboard">
+                          <button>
+                            Continue Shopping
+                          </button>
+                        </NavLink>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

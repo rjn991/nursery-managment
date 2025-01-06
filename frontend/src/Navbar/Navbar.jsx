@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import logo from "../assets/logo.png";
 import cart from "../assets/cart.svg";
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <>
       <div className="flex items-center justify-between">
@@ -14,12 +14,16 @@ const Navbar = () => {
           <NavLink to="/" className="mx-5">
             Home
           </NavLink>
-          <NavLink to="/userDashboard" className="mx-5">
-            Dashboard
-          </NavLink>
-          <NavLink to="/cart" className="mx-5">
-            <img src={cart} className="h-10 inline-block"></img>
-          </NavLink>
+          {props.dashboard != "notReq" && (
+            <NavLink to="/userDashboard" className="mx-5">
+              Dashboard
+            </NavLink>
+          )}
+          {props.cart != "notReq" && (
+            <NavLink to="/cart" className="mx-5">
+              <img src={cart} className="h-10 inline-block"></img>
+            </NavLink>
+          )}
         </div>
       </div>
     </>
