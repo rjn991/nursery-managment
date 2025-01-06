@@ -4,6 +4,7 @@ package com.nursery.nursery.services;
 import com.nursery.nursery.dto.CartDTO;
 import com.nursery.nursery.entities.CartEntity;
 import com.nursery.nursery.repositories.CartRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,6 +69,33 @@ public class CartServices {
                 rows.remove(0); // Retain the first row
                 cartRepository.deleteAll(rows); // Delete the rest
             }
+        }
+    }
+
+
+    @Transactional
+    public void updateQuantityAndRecalculateCost(Long id, int newQuantity) {
+        // Find the cart item by ID
+        Optional<CartEntity> optionalCart = cartRepository.findById(id);
+
+        if (optionalCart.isPresent()) {
+            CartEntity cart = optionalCart.get();
+
+            // Retrieve old quantity and cost
+            int oldQuantity = cart.getQuantity();
+            float oldCost = cart.getCost();
+
+            // Recalculate the cost based on the new quantity
+            float newCost = (oldCost / oldQuantity) * newQuantity;
+
+            // Update the cart item
+            cart.setQuantity(newQuantity);
+            cart.setCost(newCost);
+
+            // Save the updated cart item
+            cartRepository.save(cart);
+        } else {
+            throw new EntityNotFoundException("Cart item with ID " + id + " not found.");
         }
     }
 

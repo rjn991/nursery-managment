@@ -1,6 +1,5 @@
 package com.nursery.nursery.controllers;
 
-
 import com.nursery.nursery.dto.CartDTO;
 import com.nursery.nursery.services.CartServices;
 import jakarta.validation.Valid;
@@ -28,6 +27,11 @@ public class CartController {
     public Boolean postCart(@RequestBody @Valid CartDTO inputCart){
         cartServices.postCart(inputCart);
         return true;
+    }
+
+    @PostMapping(path = "/{CartId}")
+    public void editQuantity(@RequestParam("quantity") Integer quantity,@PathVariable Long CartId) {
+        cartServices.updateQuantityAndRecalculateCost(CartId,quantity);
     }
 
     @DeleteMapping(path = "/{CartId}")
