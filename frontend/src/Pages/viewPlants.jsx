@@ -11,12 +11,12 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const viewSeeds = () => {
+const ViewPlants = () => {
   const [seedData, setSeedData] = useState(null);
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     axios
-      .get(`${apiUrl}/seeds`)
+      .get(`${apiUrl}/plants`)
       .then((response) => {
         setSeedData(response.data);
         console.log(response.data);
@@ -25,7 +25,6 @@ const viewSeeds = () => {
         console.error("Error GETting data:", error);
       });
   }, []);
-
   return (
     <>
       <Navbar></Navbar>
@@ -34,12 +33,12 @@ const viewSeeds = () => {
           <TableCaption></TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Seed ID</TableHead>
-              <TableHead>Seed Name</TableHead>
-              <TableHead>Seed Category</TableHead>
-              <TableHead>Seeds Per Packet</TableHead>
-              <TableHead>Seed cost</TableHead>
-              <TableHead>Seed Stock</TableHead>
+              <TableHead className="w-[100px]">Plant ID</TableHead>
+              <TableHead>Plant Name</TableHead>
+              <TableHead>Plant Category</TableHead>
+              <TableHead>Plant Height</TableHead>
+              <TableHead>Plant Cost</TableHead>
+              <TableHead>Plant Stock</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -50,9 +49,9 @@ const viewSeeds = () => {
                     <TableCell className="font-medium">{data.id}</TableCell>
                     <TableCell>{data.name}</TableCell>
                     <TableCell>{data.category}</TableCell>
-                    <TableCell>{data.seedsPerPacket}</TableCell>
+                    <TableCell>{data.plantHeight}</TableCell>
                     <TableCell>{`₹ ${data.cost}`}</TableCell>
-                    <TableCell>{data.seedsStock}</TableCell>
+                    <TableCell>{data.plantsStock}</TableCell>
                   </TableRow>
                 );
               })}
@@ -62,4 +61,4 @@ const viewSeeds = () => {
     </>
   );
 };
-export default viewSeeds;
+export default ViewPlants;
