@@ -9,11 +9,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const viewSeeds = () => {
   const [seedData, setSeedData] = useState(null);
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     axios
       .get(`${apiUrl}/seeds`)
@@ -26,6 +30,24 @@ const viewSeeds = () => {
       });
   }, []);
 
+  const handleCart = (productName, cost) => {
+    const payload = {
+      productName,
+      type:"Seed",
+      quantity: 1,
+      cost,
+    };
+    axios
+      .post(`${apiUrl}/cart`, payload)
+      .then((response) => {
+        console.log(response.data);
+        toast(`${productName} has been added to cart`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
   return (
     <>
       <Navbar></Navbar>
@@ -53,12 +75,23 @@ const viewSeeds = () => {
                     <TableCell>{data.seedsPerPacket}</TableCell>
                     <TableCell>{`₹ ${data.cost}`}</TableCell>
                     <TableCell>{data.seedsStock}</TableCell>
+                    <TableCell>
+                      <Button
+                        className="bg-lime-700 hover:bg-lime-500"
+                        onClick={() => {
+                          handleCart(data.name, data.cost);
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 );
               })}
           </TableBody>
         </Table>
       </div>
+      <Toaster />
     </>
   );
 };

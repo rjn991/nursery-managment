@@ -1,5 +1,6 @@
 import { NavLink } from "react-router";
 import logo from "../assets/logo.png";
+import cart from "../assets/cart.svg";
 const Navbar = () => {
   return (
     <>
@@ -15,6 +16,9 @@ const Navbar = () => {
           </NavLink>
           <NavLink to="/userDashboard" className="mx-5">
             Dashboard
+          </NavLink>
+          <NavLink to="/cart" className="mx-5">
+            <img src={cart} className="h-10 inline-block"></img>
           </NavLink>
         </div>
       </div>

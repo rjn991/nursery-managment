@@ -8,6 +8,7 @@ import Dashboard from "./Pages/Dashboard.jsx";
 import ViewSeedsAdmin from "./Pages/viewSeedsAdmin.jsx";
 import UserDashboard from "./Pages/UserDashboard.jsx";
 import ViewPlantsAdmin from "./Pages/viewPlantsAdmin.jsx";
+import Cart from "./Pages/Cart.jsx";
 import { BrowserRouter, Routes, Route } from "react-router";
 
 createRoot(document.getElementById("root")).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/viewPlants" element={<ViewPlants/>} />
         <Route path="/viewSeedsAdmin" element={<ViewSeedsAdmin/>} />
         <Route path="/viewPlantsAdmin" element={<ViewPlantsAdmin/>} />
+        <Route path="/cart" element={<Cart/>}/>
       </Routes>
     </BrowserRouter>
   </StrictMode>
